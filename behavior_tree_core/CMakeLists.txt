@@ -90,6 +90,7 @@ src/sequence_node_with_memory.cpp
 src/tree_node.cpp
 src/actions/action_test_node.cpp
 src/conditions/condition_test_node.cpp
+src/trees/tree_test.cpp
 src/actions/ros_action.cpp
 src/conditions/ros_condition.cpp
 src/dot_bt.cpp
@@ -114,6 +115,12 @@ target_link_libraries(gtest_tree
 
 add_executable(gtest_ros src/gtest/external_ros_nodes_test.cpp)
 target_link_libraries(gtest_ros
+  ${catkin_LIBRARIES}
+  ${PROJECT_NAME}
+  ${GTEST_LIBRARIES})
+
+add_executable(tree_test src/trees/tree_test.cpp)
+target_link_libraries(tree_test
   ${catkin_LIBRARIES}
   ${PROJECT_NAME}
   ${GTEST_LIBRARIES})

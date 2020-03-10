@@ -18,6 +18,9 @@
 
 #include <X11/Xlib.h>
 
+#include <ros/ros.h>
+#include <ros/package.h>
+
 const float DEG2RAD = 3.14159/180.0;
 
 
@@ -188,7 +191,7 @@ void draw_node(float x, float y, int node_type, const char *leafName, int status
     switch (status)
     {
     case BT::RUNNING:
-        glColor3f(0.8, 0.8, 0.8);
+        glColor3f(0.0, 0.0, 1.0);
         break;
     case BT::SUCCESS:
         glColor3f(0.0, 1.0, 0.0);
@@ -273,7 +276,7 @@ void draw_edge(GLfloat parent_x, GLfloat parent_y,
 void draw_straight_edge(GLfloat parent_x, GLfloat parent_y,
                         GLfloat parent_size, GLfloat child_x, GLfloat child_y, GLfloat child_size)
 {
-    glLineWidth(1.5);
+    glLineWidth(2.0);
     glColor3f(0.0, 0.0, 0.0);
 
     glBegin(GL_LINES);
@@ -344,20 +347,20 @@ void updateTree(BT::TreeNode* tree, GLfloat x_pos, GLfloat y_pos, GLfloat y_offs
         GLfloat max_x_end = 0;
         // GLfloat max_x_start = 0;  // commented out as unused variable
         GLfloat current_x_end = 0;
-
         for (int i = 0; i < M; i++)
         {
             if (children[i]->DrawType() != BT::ACTION && children[i]->DrawType() != BT::CONDITION)
             {
-                current_x_end = 0.04;
+                current_x_end = 0.55;
                 children_x_middle_relative.push_back(0.02);
+                // current_x_end = current_x_end + 0.3;
             }
             else
             {
                 current_x_end = 0.02*compute_max_width(children[i]->get_name().c_str());
                 children_x_middle_relative.push_back(current_x_end/2);
             }
-
+            
             if (i < M-1)
             {
                 max_x_end = max_x_end + current_x_end + x_space + additional_spacing_array[depth];
@@ -379,14 +382,14 @@ void updateTree(BT::TreeNode* tree, GLfloat x_pos, GLfloat y_pos, GLfloat y_offs
             if (i > 0)
             {
                 updateTree(children[i], x_shift + children_x_end.at(i - 1) , y_pos - y_offset  , y_offset, depth + 1);
-                draw_edge(x_pos + 0.015, y_pos, 0.02,
+                draw_edge(x_pos + 0.03, y_pos, 0.02,
                           x_shift + children_x_end.at(i-1) + children_x_middle_relative.at(i),
                           y_pos - y_offset, 0.02);
             }
             else
             {
                 updateTree(children[i], x_shift , y_pos - y_offset  , y_offset, depth + 1);
-                draw_edge(x_pos + 0.015, y_pos, 0.02,
+                draw_edge(x_pos + 0.03, y_pos, 0.02,
                           x_shift + children_x_middle_relative.at(i), y_pos - y_offset, 0.02);
             }
         }

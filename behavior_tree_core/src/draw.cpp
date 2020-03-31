@@ -191,7 +191,7 @@ void draw_node(float x, float y, int node_type, const char *leafName, int status
     switch (status)
     {
     case BT::RUNNING:
-        glColor3f(0.0, 0.0, 1.0);
+        glColor3f(0.0, 1.0, 1.0);
         break;
     case BT::SUCCESS:
         glColor3f(0.0, 1.0, 0.0);
